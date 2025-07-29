@@ -174,6 +174,28 @@ bash start_all.sh
 ```
 
 ### 2.6 前端
+
+#### 本地开发模式
+如果需要在本地运行前端进行开发，可以按照以下步骤：
+
+1. 进入前端目录
+```bash
+cd react_ui
+```
+
+2. 安装依赖
+```bash
+npm install
+```
+
+3. 启动开发服务器
+```bash
+npm run dev
+```
+
+前端将在 http://localhost:3000 启动，支持热重载功能。
+
+#### Docker部署模式
 **前提条件**
 - 安装Docker和Docker Compose：https://docs.docker.com/get-docker/
 - Linux下安装Docker命令：
