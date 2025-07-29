@@ -1,0 +1,47 @@
+{
+  "2e2c977d": {
+    "mysql": {
+      "url": "",
+      "command": "uv",
+      "args": [
+        "--directory",
+        "/Users/fredzh/Downloads/mysql-mcp",
+        "run",
+        "mysql_mcp_server"
+      ],
+      "env": {
+        "MYSQL_HOST": "localhost",
+        "MYSQL_PORT": "3306",
+        "MYSQL_USER": "mcpuser",
+        "MYSQL_PASSWORD": "mcppassword",
+        "MYSQL_DATABASE": "gaming_marketing"
+      },
+      "description": "mysql",
+      "token": null
+    },
+    "server-name": {
+      "url": "",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-brave-search"
+      ],
+      "env": {
+        "BRAVE_API_KEY": ""
+      },
+      "description": "bravesearch",
+      "token": null
+    },
+    "sequential-thinking": {
+      "url": "",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ],
+      "env": {},
+      "description": "sequentialthinking",
+      "token": null
+    }
+  }
+}

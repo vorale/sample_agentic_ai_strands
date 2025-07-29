@@ -21,8 +21,20 @@ from botocore.config import Config
 from custom_tools import mem0_memory
 from strands.telemetry import StrandsTelemetry
 from constant import *
+# Import Strands built-in tools (excluding interactive ones that don't work in web environments)
+from strands_tools import (
+    file_read, 
+    file_write, 
+    editor,
+    calculator,
+    current_time,
+    environment,
+    shell,
+    python_repl,
+    swarm,
+)
 load_dotenv()  # load environment variables from .env
-from strands_tools import swarm
+
 
 import base64
 import os
@@ -236,8 +248,31 @@ class StrandsAgentClient(ChatClient):
         """Create a Strands agent with MCP tools"""
         
         # Create MCP tools
-        tools = await self._create_mcp_tools(mcp_clients, mcp_server_ids)
-
+        mcp_tools = await self._create_mcp_tools(mcp_clients, mcp_server_ids)
+        logger.info(mcp_tools)
+        
+        # Add Strands built-in tools by default (configurable via environment)
+        builtin_tools = []
+        
+        # Check environment variable to enable/disable built-in tools
+        enable_builtin_tools = os.environ.get("ENABLE_STRANDS_BUILTIN_TOOLS", "true").lower() == "true"
+        
+        if enable_builtin_tools:
+            builtin_tools = [
+                file_read,      # Read files
+                file_write,     # Write files  
+                editor,         # Advanced file editing
+                calculator,     # Mathematical operations
+                current_time,   # Get current time
+                environment,    # Manage environment variables
+                python_repl
+                # Note: Removed shell and python_repl as they can cause issues in web environments
+                # due to interactive input requirements
+            ]
+            logger.info(f"Added {len(builtin_tools)} Strands built-in tools")
+        
+        # Combine MCP tools with built-in tools
+        tools = mcp_tools + builtin_tools
         # Get the model
         model = self._get_model(model_id,thinking=thinking, thinking_budget=thinking_budget,max_tokens=max_tokens, temperature=temperature)
         
